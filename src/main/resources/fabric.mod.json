@@ -8,9 +8,7 @@
     "OhMarker"
   ],
   "contact": {
-    "homepage": "https://modrinth.com/mod/totemcounter-auto-reset",
-    "sources": "https://github.com/lawspandayt-jpg/TotemAutoReset",
-    "issues": "https://github.com/lawspandayt-jpg/TotemAutoReset/issues"
+    "homepage": "https://modrinth.com/mod/totemcounter-auto-reset"
   },
   "license": "MIT",
   "icon": "assets/totemautoreset/icon.png",

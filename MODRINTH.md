@@ -46,5 +46,4 @@ The mod refuses to load without TotemCounter installed.
 ## Credits
 
 TotemCounter and ukulib are made by uku; this addon is not affiliated with or endorsed by them.
-The icon uses Minecraft's Totem of Undying texture. Source code is on
-[GitHub](https://github.com/lawspandayt-jpg/TotemAutoReset) under the MIT license.
+The icon uses Minecraft's Totem of Undying texture. Released under the MIT license.

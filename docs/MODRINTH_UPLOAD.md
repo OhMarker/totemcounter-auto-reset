@@ -1,21 +1,9 @@
 # Publishing on Modrinth
 
-Everything below is prepared in this repo. Steps marked **(you)** need your Modrinth or GitHub
-account and cannot be done from here.
+Everything below is prepared in this folder. Steps marked **(you)** need your Modrinth account
+and cannot be done from here.
 
-## 1. Source on GitHub (you, 2 minutes)
-
-Create an **empty** repository named `TotemAutoReset` under `lawspandayt-jpg` (no README, no
-license, the repo already has both), then from this folder:
-
-```bat
-git remote add origin https://github.com/lawspandayt-jpg/TotemAutoReset.git
-git push -u origin main
-```
-
-The jar's `contact` links and MODRINTH.md already point at that URL.
-
-## 2. Create the project (you, on modrinth.com)
+## 1. Create the project (you, on modrinth.com)
 
 **Create a project** → type **Mod**:
 
@@ -30,15 +18,15 @@ Then in the project's **Settings**:
 
 | Section | Value |
 | --- | --- |
-| Description | paste `MODRINTH.md` (or run `gradlew.bat modrinthSyncBody` after step 4) |
+| Description | paste `MODRINTH.md` (or run `gradlew.bat modrinthSyncBody` after step 2) |
 | Icon | `modrinth/icon.png` |
 | Categories | **Utility** |
 | Client-side / Server-side | **Required** / **Unsupported** |
-| License | **MIT**, URL `https://github.com/lawspandayt-jpg/TotemAutoReset/blob/main/LICENSE` |
-| Links | Source `https://github.com/lawspandayt-jpg/TotemAutoReset`, Issues `https://github.com/lawspandayt-jpg/TotemAutoReset/issues` |
+| License | **MIT** (no URL needed) |
+| Links | leave empty (no public source repo) |
 | Gallery | `modrinth/banner.png` (featured), `modrinth/gallery-settings.png` ("Settings screen via Mod Menu"), `modrinth/gallery-modmenu.png` ("In Mod Menu") |
 
-## 3. Upload the version
+## 2. Upload the version
 
 **Website:** Versions → **Create a version**
 
@@ -69,7 +57,7 @@ gradlew.bat modrinthSyncBody
 
 pushes `MODRINTH.md` as the description.
 
-## 4. Submit for review (you)
+## 3. Submit for review (you)
 
 Set visibility to **Public**/submit. Review normally takes one to two days; reviewers check that
 the jar loads and the description says what the mod does. Both are covered.
