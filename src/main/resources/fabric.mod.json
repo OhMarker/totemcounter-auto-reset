@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "totemautoreset",
+  "version": "${version}",
+  "name": "TotemCounter Auto Reset",
+  "description": "Unofficial companion mod for uku's TotemCounter: automatically triggers its reset when you die or the player you are fighting dies, so every fight starts at 0. Adds no counter or HUD of its own.",
+  "authors": [
+    "OhMarker"
+  ],
+  "contact": {
+    "homepage": "https://modrinth.com/mod/totemcounter-auto-reset",
+    "sources": "https://github.com/lawspandayt-jpg/TotemAutoReset",
+    "issues": "https://github.com/lawspandayt-jpg/TotemAutoReset/issues"
+  },
+  "license": "MIT",
+  "icon": "assets/totemautoreset/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.ohmarker.totemautoreset.TotemAutoReset"
+    ],
+    "modmenu": [
+      "com.ohmarker.totemautoreset.ModMenuIntegration"
+    ]
+  },
+  "mixins": [
+    "totemautoreset.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.17.0",
+    "minecraft": "~1.21.11",
+    "java": ">=21",
+    "fabric-api": "*",
+    "totemcounter": ">=1.11.0"
+  },
+  "suggests": {
+    "modmenu": "*"
+  }
+}

@@ -1,0 +1,145 @@
+/*
+ * TotemCounter Auto Reset - companion mod for uku's TotemCounter (Minecraft 1.21.11, Fabric).
+ *
+ * 1.21.11 is an obfuscated release, so the "remap" flavour of Loom is used: sources are written
+ * against Mojang's official names and Loom remaps the built jar to intermediary for the runtime.
+ * TotemCounter and ukulib are pulled from the Modrinth Maven so the call into TotemCounter's
+ * public reset API is type-checked against the real jar.
+ */
+plugins {
+    id 'net.fabricmc.fabric-loom-remap' version "${loom_version}"
+    id 'com.modrinth.minotaur' version '2.9.0'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'Fabric'
+        url = 'https://maven.fabricmc.net/'
+    }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = 'Modrinth'
+                url = 'https://api.modrinth.com/maven'
+            }
+        }
+        filter {
+            includeGroup 'maven.modrinth'
+        }
+    }
+    // Placeholder API (a library Mod Menu nests as a jar-in-jar); dev runtime only.
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = 'Nucleoid'
+                url = 'https://maven.nucleoid.xyz/'
+            }
+        }
+        filter {
+            includeGroup 'eu.pb4'
+        }
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    // uku's TotemCounter (the counter we reset) and its library. Present on the compile classpath
+    // and in `gradlew runClient`; the player installs both from Modrinth next to this mod.
+    modImplementation "maven.modrinth:totemcounter:${project.totemcounter_version}"
+    modImplementation "maven.modrinth:ukulib:${project.ukulib_version}"
+    // ukulib nests toml4j as a jar-in-jar, which Loom does not unpack for `runClient`. Dev runtime
+    // only (localRuntime is never published or bundled); the real game gets it from ukulib itself.
+    localRuntime "com.moandjiezana.toml:toml4j:0.7.2"
+
+    // Mod Menu: optional at runtime (only the "Configure" button), so compile-only for the release
+    // jar; on the dev runtime so `runClient` shows the integration. Same jar-in-jar caveat for its
+    // Placeholder API library.
+    modCompileOnly "maven.modrinth:modmenu:${project.modmenu_version}"
+    modLocalRuntime "maven.modrinth:modmenu:${project.modmenu_version}"
+    modLocalRuntime "eu.pb4:placeholder-api:${project.placeholder_api_version}"
+}
+
+// `gradlew runClient -PquickPlay="World name"` joins a world in the run folder straight away;
+// add -Psmoke to run the in-game self-test (see SmokeTest.java), result in run/logs/latest.log.
+loom {
+    runs {
+        client {
+            if (project.hasProperty('smoke')) {
+                vmArgs '-Dtotemautoreset.smoke=true'
+            }
+            if (project.hasProperty('quickPlay')) {
+                programArgs '--quickPlaySingleplayer', project.property('quickPlay').toString()
+            }
+        }
+    }
+}
+
+processResources {
+    inputs.property 'version', project.version
+
+    filesMatching('fabric.mod.json') {
+        expand 'version': project.version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = 'UTF-8'
+    it.options.release = 21
+}
+
+java {
+    withSourcesJar()
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+jar {
+    from('LICENSE') {
+        rename { "${it}_${project.base.archivesName.get()}" }
+    }
+    // The in-game self-test is dev-only: it stays out of the release jar (loaded reflectively).
+    exclude '**/SmokeTest*.class'
+}
+
+sourcesJar {
+    exclude '**/SmokeTest.java'
+}
+
+// Modrinth publishing (see docs/MODRINTH_UPLOAD.md). The project itself is created on the website;
+// afterwards `gradlew modrinth` uploads the built jar as a new version and `gradlew modrinthSyncBody`
+// pushes MODRINTH.md as the description. The token comes from the MODRINTH_TOKEN environment variable.
+def latestChangelog(File file) {
+    def sections = file.text.split(/(?m)^## /)
+    return sections.length > 1 ? '## ' + sections[1].trim() : file.text.trim()
+}
+
+modrinth {
+    token = System.getenv('MODRINTH_TOKEN') ?: ''
+    projectId = project.modrinth_slug
+    versionNumber = project.version
+    versionName = "TotemCounter Auto Reset ${project.mod_version.tokenize('+')[0]}"
+    versionType = 'release'
+    uploadFile = remapJar
+    gameVersions = [project.minecraft_version]
+    loaders = ['fabric']
+    changelog = latestChangelog(rootProject.file('CHANGELOG.md'))
+    syncBodyFrom = rootProject.file('MODRINTH.md').text
+    dependencies {
+        required.project 'totemcounter'
+        required.project 'ukulib'
+        required.project 'fabric-api'
+        optional.project 'modmenu'
+    }
+}

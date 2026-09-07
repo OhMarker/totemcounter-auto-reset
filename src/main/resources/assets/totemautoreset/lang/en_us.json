@@ -1,0 +1,12 @@
+{
+  "totemautoreset.config.title": "TotemCounter Auto Reset",
+  "totemautoreset.option.resetOnOwnDeath": "Reset when I die",
+  "totemautoreset.option.resetOnOwnDeath.tooltip": "Trigger TotemCounter's reset when you die.",
+  "totemautoreset.option.resetOnOpponentDeath": "Reset when my opponent dies",
+  "totemautoreset.option.resetOnOpponentDeath.tooltip": "Trigger TotemCounter's reset when the player you are fighting dies. Your opponent is the last player you exchanged damage with or hit.",
+  "totemautoreset.option.combatTimeout": "Combat timeout",
+  "totemautoreset.option.combatTimeout.tooltip": "Seconds without any damage exchanged before your opponent is forgotten.",
+  "totemautoreset.option.seconds": "%ss",
+  "totemautoreset.option.showToast": "Show reset toast",
+  "totemautoreset.option.showToast.tooltip": "ON: use TotemCounter's own reset, including its \"Successfully reset pop counter\" toast (same as its reset key). OFF: reset silently."
+}
