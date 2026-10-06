@@ -23,7 +23,7 @@ Then in the project's **Settings**:
 | Categories | **Utility** |
 | Client-side / Server-side | **Required** / **Unsupported** |
 | License | **MIT** (no URL needed) |
-| Links | leave empty (no public source repo) |
+| Links | Source + Issues -> `https://github.com/OhMarker/totemcounter-auto-reset` |
 | Gallery | `modrinth/banner.png` (featured), `modrinth/gallery-settings.png` ("Settings screen via Mod Menu"), `modrinth/gallery-modmenu.png` ("In Mod Menu") |
 
 ## 2. Upload the version

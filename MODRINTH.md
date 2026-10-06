@@ -43,6 +43,8 @@ in `config/totemautoreset.json`.
 
 The mod refuses to load without TotemCounter installed.
 
+Source code: https://github.com/OhMarker/totemcounter-auto-reset
+
 ## Credits
 
 TotemCounter and ukulib are made by uku; this addon is not affiliated with or endorsed by them.
